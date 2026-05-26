@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
+import { Route as ProcessingRouteImport } from './routes/processing'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WatchIdRouteImport } from './routes/watch.$id'
@@ -17,6 +18,11 @@ import { Route as WatchIdRouteImport } from './routes/watch.$id'
 const UploadRoute = UploadRouteImport.update({
   id: '/upload',
   path: '/upload',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProcessingRoute = ProcessingRouteImport.update({
+  id: '/processing',
+  path: '/processing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedRoute = FeedRouteImport.update({
@@ -38,12 +44,14 @@ const WatchIdRoute = WatchIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
+  '/processing': typeof ProcessingRoute
   '/upload': typeof UploadRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
+  '/processing': typeof ProcessingRoute
   '/upload': typeof UploadRoute
   '/watch/$id': typeof WatchIdRoute
 }
@@ -51,20 +59,22 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/feed': typeof FeedRoute
+  '/processing': typeof ProcessingRoute
   '/upload': typeof UploadRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/feed' | '/upload' | '/watch/$id'
+  fullPaths: '/' | '/feed' | '/processing' | '/upload' | '/watch/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/feed' | '/upload' | '/watch/$id'
-  id: '__root__' | '/' | '/feed' | '/upload' | '/watch/$id'
+  to: '/' | '/feed' | '/processing' | '/upload' | '/watch/$id'
+  id: '__root__' | '/' | '/feed' | '/processing' | '/upload' | '/watch/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FeedRoute: typeof FeedRoute
+  ProcessingRoute: typeof ProcessingRoute
   UploadRoute: typeof UploadRoute
   WatchIdRoute: typeof WatchIdRoute
 }
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/upload'
       fullPath: '/upload'
       preLoaderRoute: typeof UploadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/processing': {
+      id: '/processing'
+      path: '/processing'
+      fullPath: '/processing'
+      preLoaderRoute: typeof ProcessingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feed': {
@@ -105,6 +122,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FeedRoute: FeedRoute,
+  ProcessingRoute: ProcessingRoute,
   UploadRoute: UploadRoute,
   WatchIdRoute: WatchIdRoute,
 }
