@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as UploadRouteImport } from './routes/upload'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ProcessingRouteImport } from './routes/processing'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as CreatorRouteImport } from './routes/creator'
 import { Route as IndexRouteImport } from './routes/index'
@@ -30,6 +31,11 @@ const ProfileRoute = ProfileRouteImport.update({
 const ProcessingRoute = ProcessingRouteImport.update({
   id: '/processing',
   path: '/processing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedRoute = FeedRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/creator': typeof CreatorRoute
   '/feed': typeof FeedRoute
+  '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/creator': typeof CreatorRoute
   '/feed': typeof FeedRoute
+  '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/creator': typeof CreatorRoute
   '/feed': typeof FeedRoute
+  '/login': typeof LoginRoute
   '/processing': typeof ProcessingRoute
   '/profile': typeof ProfileRoute
   '/upload': typeof UploadRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/creator'
     | '/feed'
+    | '/login'
     | '/processing'
     | '/profile'
     | '/upload'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/creator'
     | '/feed'
+    | '/login'
     | '/processing'
     | '/profile'
     | '/upload'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/creator'
     | '/feed'
+    | '/login'
     | '/processing'
     | '/profile'
     | '/upload'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CreatorRoute: typeof CreatorRoute
   FeedRoute: typeof FeedRoute
+  LoginRoute: typeof LoginRoute
   ProcessingRoute: typeof ProcessingRoute
   ProfileRoute: typeof ProfileRoute
   UploadRoute: typeof UploadRoute
@@ -142,6 +155,13 @@ declare module '@tanstack/react-router' {
       path: '/processing'
       fullPath: '/processing'
       preLoaderRoute: typeof ProcessingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feed': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreatorRoute: CreatorRoute,
   FeedRoute: FeedRoute,
+  LoginRoute: LoginRoute,
   ProcessingRoute: ProcessingRoute,
   ProfileRoute: ProfileRoute,
   UploadRoute: UploadRoute,
